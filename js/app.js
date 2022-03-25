@@ -7,8 +7,6 @@ if (document.querySelector("#template-card") != null) {
         fetchData();
     });
 
-
-
     const cards = document.querySelector("#card-dinamica");
     const templateCard = document.querySelector("#template-card").content;
 
@@ -73,8 +71,6 @@ if (document.querySelector("#template-card") != null) {
         per.addEventListener("click", function (){
 
             if (!executed) {
-                console.log(per);
-                console.log(executed);
                 let personID = per.getAttribute("character-id");
                 fetchDataPerson(personID);
                 executed = true;
@@ -89,26 +85,40 @@ if (document.querySelector("#template-card") != null) {
 
     const pintarPersonaje = (data) => {
 
-        const cards_Persons = document.getElementById("card-modal");
-        const templateCardPerson = document.getElementById("template-card-modal").content;
-        const fragmentPer = document.createDocumentFragment();
+        //const cards_Persons = document.getElementById("card-modal");
+        let templateCardPerson = document.getElementById("template-card-modal");
+  
+        //const fragmentPer = document.createDocumentFragment();
 
-        const clonePer = templateCardPerson.cloneNode(true);
-        clonePer.querySelector("h5").textContent = data.name;
-        clonePer.querySelector("img").setAttribute("src", data.image);
+        //const clonePer = templateCardPerson.cloneNode(true);
+        templateCardPerson.querySelector("h5").innerHTML = data.name;
+        templateCardPerson.querySelector("img").setAttribute("src", data.image);
         if (data.type == "") {
-           clonePer.querySelector("ul li#tipo").textContent = "Oops. There's no Info"; 
+           templateCardPerson.querySelector("ul li#tipo").innerHTML = "Oops. There's no Info"; 
         } else {
-            clonePer.querySelector("ul li#tipo").textContent = data.type;
+            templateCardPerson.querySelector("ul li#tipo").innerHTML = data.type;
         }
-        clonePer.querySelector("ul li#gender").textContent = data.gender;
-        clonePer.querySelector("ul li#species").textContent = data.species;
+        templateCardPerson.querySelector("ul li#gender").innerHTML = data.gender;
+        templateCardPerson.querySelector("ul li#species").innerHTML = data.species;
         //clonePer.querySelector("a").setAttribute("id", item.id);
 
-        fragmentPer.appendChild(clonePer);
+        //fragmentPer.appendChild(clonePer);
 
-        cards_Persons.appendChild(fragmentPer);
+        //const primero = document.getElementById("card-modal").childNodes[1];
     };
+
+
+      modal.addEventListener('hide.bs.modal', function () {
+        const templateCardPerson = document.getElementById("template-card-modal");
+
+        templateCardPerson.querySelector("h5").textContent = "";
+        templateCardPerson.querySelector("img").setAttribute("src", "");
+        templateCardPerson.querySelector("ul li#tipo").textContent = ""; 
+        templateCardPerson.querySelector("ul li#gender").textContent = "";
+        templateCardPerson.querySelector("ul li#species").textContent = "";
+
+      });
+  
 
 };
 
@@ -151,11 +161,78 @@ if (document.querySelector("#template-card-locations") != null) {
             const clone_locations = templateCard_locations.cloneNode(true);
             clone_locations.querySelector("h5").textContent = item.name;
             clone_locations.querySelector("p").textContent = item.type;
+            clone_locations.querySelector("a").setAttribute("location-id", item.id);
 
             fragment_locations.appendChild(clone_locations);
         });
         cards_locations.appendChild(fragment_locations);
     };
+
+    /*--------------------------------------------------*/
+
+     const fetchDataSingleLocations = async (locationId) => {
+            try {
+
+
+                const resLocation = await fetch("https://rickandmortyapi.com/api/location/"+locationId);
+                const dataLocation = await resLocation.json();
+
+                pintarLocation(dataLocation);
+            } catch (error) {
+                console.log(error);
+            } finally {
+
+            }
+        };
+
+
+    var modalLugar = document.getElementById('lugaresModal');
+
+    modalLugar.addEventListener('show.bs.modal', function () {
+      const locations = document.getElementsByClassName("detalleLugar");
+      var  executed = false;
+
+      for (let loca of locations) {
+ 
+        loca.addEventListener("click", function (){
+
+            if (!executed) {
+                let locationID = loca.getAttribute("location-id");
+                fetchDataSingleLocations(locationID);
+                executed = true;
+            }
+
+        });
+        
+      }
+
+    });
+
+
+    const pintarLocation = (data) => {
+
+        let templateCardLocation = document.getElementById("template-card-modal-location");
+  
+        templateCardLocation.querySelector("h5").innerHTML = data.name;
+        if (data.type == "") {
+           templateCardLocation.querySelector("ul li#type").innerHTML = "Oops. There's no Info"; 
+        } else {
+            templateCardLocation.querySelector("ul li#type").innerHTML = data.type;
+        }
+        templateCardLocation.querySelector("ul li#dimension").innerHTML = data.dimension;
+
+    };
+
+
+      modalLugar.addEventListener('hide.bs.modal', function () {
+        const templateCardLocation = document.getElementById("template-card-modal-location");
+
+        templateCardLocation.querySelector("h5").textContent = "";
+        templateCardLocation.querySelector("ul li#type").textContent = ""; 
+        templateCardLocation.querySelector("ul li#dimension").textContent = "";
+
+      });
+  
 
 }
 
@@ -196,10 +273,73 @@ if (document.querySelector("#template-card-episodes") != null) {
             const clone_episodes = templateCard_episodes.cloneNode(true);
             clone_episodes.querySelector("h5").textContent = item.name;
             clone_episodes.querySelector("p").textContent = item.air_date;
+            clone_episodes.querySelector("a").setAttribute("episode-id", item.id);
 
             fragment_episodes.appendChild(clone_episodes);
         });
         cards_episodes.appendChild(fragment_episodes);
     };
+
+    /*-----------------------------------------------------*/
+
+    const fetchDataSingelEpisode = async (episodeId) => {
+            try {
+
+
+                const resEpisode = await fetch("https://rickandmortyapi.com/api/episode/"+episodeId);
+                const dataEpisode = await resEpisode.json();
+
+                pintarEpisodio(dataEpisode);
+            } catch (error) {
+                console.log(error);
+            } finally {
+
+            }
+        };
+
+
+    var episodioModal = document.getElementById('modalEpisodio');
+
+    episodioModal.addEventListener('show.bs.modal', function () {
+      const episodes = document.getElementsByClassName("detalleEpisodio");
+      var  executed = false;
+
+      for (let cap of episodes) {
+ 
+        cap.addEventListener("click", function (){
+
+            if (!executed) {
+                let capituloID = cap.getAttribute("episode-id");
+                fetchDataSingelEpisode(capituloID);
+                executed = true;
+            }
+
+        });
+        
+      }
+
+    });
+
+
+    const pintarEpisodio = (data) => {
+
+        let templateCardEpisode = document.getElementById("template-card-modal-episode");
+  
+        templateCardEpisode.querySelector("h5").innerHTML = data.name;
+        templateCardEpisode.querySelector("ul li#fecha").innerHTML = data.air_date; 
+        templateCardEpisode.querySelector("ul li#abrev").innerHTML = data.episode;
+
+    };
+
+
+      episodioModal.addEventListener('hide.bs.modal', function () {
+        const templateCardEpisode = document.getElementById("template-card-modal-episode");
+
+        templateCardEpisode.querySelector("h5").textContent = "";
+        templateCardEpisode.querySelector("ul li#fecha").innerHTML = ""; 
+        templateCardEpisode.querySelector("ul li#abrev").innerHTML = "";
+
+      });
+  
 
 }

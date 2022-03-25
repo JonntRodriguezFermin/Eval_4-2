@@ -43,7 +43,7 @@
 					  <h5 class="card-header text-center">Nombre Episodio</h5>
 					  <div class="card-body text-center">
 					    <p class="card-text fs-4">Fecha al Aire</p>
-					    <a href="#" ><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+					    <a href="#" data-bs-toggle="modal" data-bs-target="#modalEpisodio" class="detalleEpisodio"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
 				  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 				  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
 				</svg></a>
@@ -57,6 +57,41 @@
 		<div class="container">
 			<p class="fst-italic fs-5 text-center mb-0 h-25">Rick & Morty </p>
 		</div>
+	</div>
+
+	<!-- Modal Episodios -->
+	<div class="modal fade" id="modalEpisodio" tabindex="-1" aria-labelledby="modalEpisodioLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered">
+	    <div class="modal-content">
+	    	<div id="card-modal">
+		      <div id="template-card-modal-episode">
+			      <div class="modal-header text-center text-white" style="background-color: #57b1e1;">
+			        <h5 class="modal-title" id="detallesModalLabel"><b>Nombre Episodio</b></h5>
+			      </div>
+			      <div class="modal-body">
+			        <div class="row">
+			        	<div class="col-12 p-3">
+
+							<ul class="list-group mb-2">
+							  <li class="list-group-item active">Fecha al Aire</li>
+							  <li id="fecha" class="list-group-item">fecha</li>
+							</ul>
+
+							<ul class="list-group mb-2">
+							  <li class="list-group-item active">Episodio:</li>
+							  <li id="abrev" class="list-group-item">abrebiacion</li>
+							</ul>
+
+			        	</div>
+			        </div>
+			      </div>
+			      <div class="modal-footer text-center">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			      </div>
+		      </div>
+		    </div>
+	    </div>
+	  </div>
 	</div>
 
 	<script src="js/app.js"></script>
